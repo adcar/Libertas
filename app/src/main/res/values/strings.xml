@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Libertas</string>
+    <string name="action_settings">Settings</string>
+    <string name="voat_login">Sign in with Voat</string>
+    <string name="welcome_to_libertas">Welcome to Libertas</string>
+    <string name="sign_in_with_your_voat_account_below">Sign in with your Voat account below.</string>
+</resources>
