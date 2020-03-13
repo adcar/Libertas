@@ -85,11 +85,12 @@ public class MainActivity extends AppCompatActivity {
                 final String res = response.body().string();
                 if (response.isSuccessful()) {
                     Log.i("alex", "BODY: " + res);
+
                     return;
                 }
 
                 // We need to re get a new token and re do the request
-                Log.i("alex", "error: " + response.body().string());
+                Log.e("alex", "error: " + response.body().string());
 
 
             }
