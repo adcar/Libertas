@@ -6,16 +6,22 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -27,9 +33,12 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
+
 public class MainActivity extends AppCompatActivity {
 
     private String token;
+    private CardArrayAdapter cardArrayAdapter;
+
 
 
 
@@ -83,8 +92,49 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 final String res = response.body().string();
+                final ListView list = findViewById(R.id.posts);
                 if (response.isSuccessful()) {
                     Log.i("alex", "BODY: " + res);
+                    try {
+                        final JSONObject jsonRes = new JSONObject(res);
+                        final JSONArray data = jsonRes.getJSONArray("data");
+
+
+                        cardArrayAdapter = new CardArrayAdapter(getApplicationContext(), R.layout.list_item_card);
+
+//                        for (int i = 0; i < 10; i++) {
+//                            Card card = new Card("Card " + (i+1) + " Line 1", "Card " + (i+1) + " Line 2");
+//                            cardArrayAdapter.add(card);
+//                        }
+
+                        for (int i = 0; i < data.length(); i++) {
+
+                            CardView card = new CardView(MainActivity.this);
+                            TextView title = new TextView(MainActivity.this);
+                            title.setText(data.getJSONObject(i).getString("title"));
+                            card.addView(title);
+                            cardArrayAdapter.add(new Card("Card " + (i+1) + " Line 1", "Card " + (i+1) + " Line 2"));
+                            //Log.i("alex", String.valueOf(data.getJSONObject(i)));
+                        }
+
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+
+                                // Stuff that updates the UI
+                                list.setAdapter(cardArrayAdapter);
+
+                            }
+                        });
+
+
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
                     return;
                 }
