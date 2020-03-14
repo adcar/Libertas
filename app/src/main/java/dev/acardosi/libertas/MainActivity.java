@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
                 final String res = response.body().string();
                 final ListView list = findViewById(R.id.posts);
                 if (response.isSuccessful()) {
-                    Log.i("alex", "BODY: " + res);
                     try {
                         final JSONObject jsonRes = new JSONObject(res);
                         final JSONArray data = jsonRes.getJSONArray("data");
@@ -104,12 +103,9 @@ public class MainActivity extends AppCompatActivity {
 
 
                         for (int i = 0; i < data.length(); i++) {
-
-                            CardView card = new CardView(MainActivity.this);
-                            TextView title = new TextView(MainActivity.this);
-                            title.setText(data.getJSONObject(i).getString("title"));
-                            card.addView(title);
-                            cardArrayAdapter.add(new Card("Card " + (i+1) + " Line 1", "Card " + (i+1) + " Line 2", "https://images.unsplash.com/photo-1558979158-65a1eaa08691?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"));
+                            JSONObject post = data.getJSONObject(i);
+                            Log.i("alex", post.toString());
+                            cardArrayAdapter.add(new Card(post.getString("title"), "Card " + (i+1) + " Line 2", post.getString("url")));
                         }
 
                         runOnUiThread(new Runnable() {

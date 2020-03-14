@@ -62,7 +62,10 @@ public class CardArrayAdapter  extends ArrayAdapter<Card> {
         Card card = getItem(position);
         viewHolder.line1.setText(card.getLine1());
         viewHolder.line2.setText(card.getLine2());
-        Picasso.get().load("https://i.imgur.com/DvpvklR.png").placeholder(R.drawable.ic_launcher_background).into(viewHolder.thumbnail);
+
+        // TODO: Change placeholder to something like an exclamation mark warning thing
+
+        Picasso.get().load(card.getThumbnail()).placeholder(R.drawable.ic_launcher_background).into(viewHolder.thumbnail);
 
         return row;
     }
