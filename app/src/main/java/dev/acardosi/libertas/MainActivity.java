@@ -102,10 +102,6 @@ public class MainActivity extends AppCompatActivity {
 
                         cardArrayAdapter = new CardArrayAdapter(getApplicationContext(), R.layout.list_item_card);
 
-//                        for (int i = 0; i < 10; i++) {
-//                            Card card = new Card("Card " + (i+1) + " Line 1", "Card " + (i+1) + " Line 2");
-//                            cardArrayAdapter.add(card);
-//                        }
 
                         for (int i = 0; i < data.length(); i++) {
 
@@ -113,8 +109,7 @@ public class MainActivity extends AppCompatActivity {
                             TextView title = new TextView(MainActivity.this);
                             title.setText(data.getJSONObject(i).getString("title"));
                             card.addView(title);
-                            cardArrayAdapter.add(new Card("Card " + (i+1) + " Line 1", "Card " + (i+1) + " Line 2"));
-                            //Log.i("alex", String.valueOf(data.getJSONObject(i)));
+                            cardArrayAdapter.add(new Card("Card " + (i+1) + " Line 1", "Card " + (i+1) + " Line 2", "https://images.unsplash.com/photo-1558979158-65a1eaa08691?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"));
                         }
 
                         runOnUiThread(new Runnable() {
@@ -127,10 +122,6 @@ public class MainActivity extends AppCompatActivity {
 
                             }
                         });
-
-
-
-
 
                     } catch (JSONException e) {
                         e.printStackTrace();

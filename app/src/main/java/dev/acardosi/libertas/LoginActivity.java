@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.i("alex", "Resumed");
         Uri uri = getIntent().getData();
         // Check if not null and check to make sure the URL is correct so it only does it with this intent
         if (uri != null && uri.toString().startsWith(Client.REDIRECT_URI)) {
@@ -83,6 +84,7 @@ public class LoginActivity extends AppCompatActivity {
             final RequestBody body = RequestBody.create(bodyString, FORM);
             final Request request = new Request.Builder()
                     .url(url)
+                    .post(body)
                     .header("Content-Type", "application/x-www-form-urlencoded")
                     .addHeader("Api-Key", Client.CLIENT_ID)
                     .build();
@@ -95,7 +97,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-
                     if (response.isSuccessful()) {
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         try {
@@ -113,6 +114,9 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
 
+                    } else {
+                        Log.e("alex", "API Request to authenticate was not successful.");
+                        Log.e("alex", "RESPONSE: " + response.body().string());
                     }
 
                 }
