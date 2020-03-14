@@ -3,8 +3,6 @@ package dev.acardosi.libertas;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,8 +62,7 @@ public class CardArrayAdapter  extends ArrayAdapter<Card> {
         Card card = getItem(position);
         viewHolder.line1.setText(card.getLine1());
         viewHolder.line2.setText(card.getLine2());
-        viewHolder.thumbnail.setBackgroundColor(Color.RED);
-        Picasso.get().load("http://i.imgur.com/DvpvklR.png").into(viewHolder.thumbnail);
+        Picasso.get().load("https://i.imgur.com/DvpvklR.png").placeholder(R.drawable.ic_launcher_background).into(viewHolder.thumbnail);
 
         return row;
     }
@@ -74,4 +70,6 @@ public class CardArrayAdapter  extends ArrayAdapter<Card> {
     public Bitmap decodeToBitmap(byte[] decodedByte) {
         return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }
+
+
 }
