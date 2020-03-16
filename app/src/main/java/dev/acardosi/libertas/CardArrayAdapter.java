@@ -75,17 +75,16 @@ public class CardArrayAdapter  extends ArrayAdapter<Card>  {
         viewHolder.title.setText(card.getTitle());
 
 
-        if (card.getContent() != null) {
-
-            if (viewHolder.content.getParent() == null) {
-                viewHolder.card.addView(viewHolder.content);
-            }
-
-
-            viewHolder.content.setText(card.getContent());
-        } else if (card.getContent() == null) {
-            viewHolder.card.removeView(viewHolder.content);
-        }
+//        if (card.getContent() != null) {
+//
+//            if (viewHolder.content.getParent() == null) {
+//                viewHolder.card.addView(viewHolder.content);
+//            }
+//
+//            viewHolder.content.setText(card.getContent());
+//        } else if (card.getContent() == null) {
+//            viewHolder.card.removeView(viewHolder.content);
+//        }
 
         viewHolder.subverse.setText("v/" + card.getSubverse());
 
@@ -126,13 +125,9 @@ public class CardArrayAdapter  extends ArrayAdapter<Card>  {
             } else {
                 viewHolder.thumbnail.setImageResource(R.drawable.link);
             }
-        } else {
-            viewHolder.card.removeView(viewHolder.thumbnail);
         }
 
-        if (viewHolder.thumbnail.getParent() == null) {
-            viewHolder.card.addView(viewHolder.thumbnail);
-        }
+
 
 
         return row;
