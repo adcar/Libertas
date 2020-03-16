@@ -98,13 +98,11 @@ public class CardArrayAdapter  extends ArrayAdapter<Card> {
         String url = card.getUrl();
 
         if (url != null) {
+
             if (url.endsWith(".gif") || url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg")) {
                 Picasso.get().load(url).placeholder(R.drawable.ic_launcher_background).into(viewHolder.thumbnail);
             } else {
-
-//            if (!url.equals("null")) {
-//                richPreview.getPreview(url);
-//            }
+                viewHolder.thumbnail.setImageResource(R.drawable.ic_link);
             }
         }
 
