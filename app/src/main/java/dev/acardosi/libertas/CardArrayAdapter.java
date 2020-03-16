@@ -3,22 +3,18 @@ package dev.acardosi.libertas;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.github.ponnamkarthik.richlinkpreview.MetaData;
-import io.github.ponnamkarthik.richlinkpreview.ResponseListener;
-import io.github.ponnamkarthik.richlinkpreview.RichPreview;
 
 public class CardArrayAdapter  extends ArrayAdapter<Card> {
 
@@ -30,6 +26,7 @@ public class CardArrayAdapter  extends ArrayAdapter<Card> {
         TextView title;
         TextView content;
         ImageView thumbnail;
+        LinearLayout card;
     }
 
 
@@ -64,6 +61,8 @@ public class CardArrayAdapter  extends ArrayAdapter<Card> {
             LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.list_item_card, parent, false);
             viewHolder = new CardViewHolder();
+
+            viewHolder.card = row.findViewById(R.id.cardLinear);
             viewHolder.title = row.findViewById(R.id.title);
             viewHolder.content = row.findViewById(R.id.content);
             viewHolder.thumbnail = row.findViewById(R.id.thumbnail);
@@ -78,6 +77,8 @@ public class CardArrayAdapter  extends ArrayAdapter<Card> {
 
         if (card.getContent() != null) {
             viewHolder.content.setText(card.getContent());
+        } else if (card.getContent() == null) {
+            viewHolder.card.removeView(viewHolder.content);
         }
 
         viewHolder.subverse.setText("v/" + card.getSubverse());
@@ -85,33 +86,34 @@ public class CardArrayAdapter  extends ArrayAdapter<Card> {
 
 
 
-        RichPreview richPreview = new RichPreview(new ResponseListener() {
-            @Override
-            public void onData(MetaData metaData) {
-                String imageUrl = metaData.getImageurl();
-                Log.i("meta",String.valueOf(metaData));
-
-                if (!imageUrl.equals(""))
-                    Picasso.get().load( metaData.getImageurl()).placeholder(R.drawable.ic_launcher_background).into(viewHolder.thumbnail);
-
-
-
-            }
-
-            @Override
-            public void onError(Exception e) {
-                //handle error
-            }
-        });
+//        RichPreview richPreview = new RichPreview(new ResponseListener() {
+//            @Override
+//            public void onData(MetaData metaData) {
+//                String imageUrl = metaData.getImageurl();
+//                Log.i("meta",String.valueOf(metaData));
+//
+//                if (!imageUrl.equals(""))
+//                    Picasso.get().load( metaData.getImageurl()).placeholder(R.drawable.ic_launcher_background).into(viewHolder.thumbnail);
+//
+//
+//
+//            }
+//
+//            @Override
+//            public void onError(Exception e) {
+//                //handle error
+//            }
+//        });
 
         String url = card.getUrl();
 
         if (url != null) {
             // TODO: Do an okhttp request to figure out if the header is an image. Not all images will have the extension.
             if (url.endsWith(".gif") || url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg")) {
-                Picasso.get().load(url).placeholder(R.drawable.ic_launcher_background).into(viewHolder.thumbnail);
+//              Picasso.get().load(url).placeholder(R.drawable.ic_launcher_background).into(viewHolder.thumbnail);
+                Glide.with(getContext()).load(url).placeholder(R.drawable.placeholder).into(viewHolder.thumbnail);
             } else {
-                viewHolder.thumbnail.setImageResource(R.drawable.ic_link);
+                viewHolder.thumbnail.setImageResource(R.drawable.link);
             }
         }
 
