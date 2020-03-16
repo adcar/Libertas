@@ -26,6 +26,7 @@ public class CardArrayAdapter  extends ArrayAdapter<Card> {
     private List<Card> cardList = new ArrayList<Card>();
 
     static class CardViewHolder {
+        TextView subverse;
         TextView title;
         TextView content;
         ImageView thumbnail;
@@ -57,6 +58,8 @@ public class CardArrayAdapter  extends ArrayAdapter<Card> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         final CardViewHolder viewHolder;
+        Card card = getItem(position);
+        assert card != null;
         if (row == null) {
             LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.list_item_card, parent, false);
@@ -64,14 +67,20 @@ public class CardArrayAdapter  extends ArrayAdapter<Card> {
             viewHolder.title = row.findViewById(R.id.title);
             viewHolder.content = row.findViewById(R.id.content);
             viewHolder.thumbnail = row.findViewById(R.id.thumbnail);
+            viewHolder.subverse = row.findViewById(R.id.subverse);
             row.setTag(viewHolder);
         } else {
             viewHolder = (CardViewHolder)row.getTag();
         }
-        Card card = getItem(position);
-        assert card != null;
+
         viewHolder.title.setText(card.getTitle());
-        viewHolder.content.setText(card.getContent());
+
+
+        if (card.getContent() != null) {
+            viewHolder.content.setText(card.getContent());
+        }
+
+        viewHolder.subverse.setText("v/" + card.getSubverse());
         // TODO: Change placeholder to something like an exclamation mark warning thing
 
 

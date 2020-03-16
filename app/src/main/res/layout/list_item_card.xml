@@ -20,24 +20,35 @@
         android:paddingRight="15dp"
         android:paddingBottom="15dp">
 
+        <TextView
+            android:id="@+id/subverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            tools:text="v/monero" />
+
         <ImageView
             android:id="@+id/thumbnail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            />
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Text line 1" />
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            tools:text="Monero is pure digital cash" />
 
         <TextView
             android:id="@+id/content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Text line 2" />
+            android:background="@color/colorGrey"
+            android:padding="10dp"
+            tools:text="I thought I woud pu tsome thoughts and information I had on Monero in a Voat post. I expect we will have quite a few people searching the net in the coming months / years as they study up on what this is all aout. With the rise of state surveilance of blockchain t..." />
 
     </LinearLayout>
 </FrameLayout>

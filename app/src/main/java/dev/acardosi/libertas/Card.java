@@ -8,6 +8,7 @@ public class Card {
     private String content;
     private String url;
     private String type;
+    private String subverse;
 
     // API returns `"null"` (A string, not the null primitive), but here I fix it to `null` (the primitive)
     private String nullable(String s) {
@@ -22,6 +23,7 @@ public class Card {
         content = nullable(post.getString("content"));
         url = nullable(post.getString("url"));
         type = nullable(post.getString("type"));
+        subverse = post.getString("subverse");
     }
 
     public String getTitle() {
@@ -38,5 +40,9 @@ public class Card {
 
     public String getType() {
         return type;
+    }
+
+    public String getSubverse() {
+        return subverse;
     }
 }
