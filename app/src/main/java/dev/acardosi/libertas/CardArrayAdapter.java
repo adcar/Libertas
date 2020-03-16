@@ -98,7 +98,7 @@ public class CardArrayAdapter  extends ArrayAdapter<Card> {
         String url = card.getUrl();
 
         if (url != null) {
-
+            // TODO: Do an okhttp request to figure out if the header is an image. Not all images will have the extension.
             if (url.endsWith(".gif") || url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg")) {
                 Picasso.get().load(url).placeholder(R.drawable.ic_launcher_background).into(viewHolder.thumbnail);
             } else {
