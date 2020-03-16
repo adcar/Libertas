@@ -104,8 +104,14 @@ public class MainActivity extends AppCompatActivity {
 
                         for (int i = 0; i < data.length(); i++) {
                             JSONObject post = data.getJSONObject(i);
-                            Log.i("alex", post.toString());
-                            cardArrayAdapter.add(new Card(post.getString("title"), "Card " + (i+1) + " Line 2", post.getString("url")));
+                            Log.i("res", post.toString());
+
+                            try {
+                                cardArrayAdapter.add(new Card(post));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
                         }
 
                         runOnUiThread(new Runnable() {

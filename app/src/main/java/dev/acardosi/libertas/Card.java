@@ -1,27 +1,42 @@
 package dev.acardosi.libertas;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Card {
-    private String line1;
-    private String line2;
-    private String thumbnail;
+    private String title;
+    private String content;
+    private String url;
+    private String type;
 
-    public Card(String line1, String line2, String thumbnail) {
-        this.line1 = line1;
-        this.line2 = line2;
-        this.thumbnail = thumbnail;
+    // API returns `"null"` (A string, not the null primitive), but here I fix it to `null` (the primitive)
+    private String nullable(String s) {
+        if (s.equals("null")) {
+            return null;
+        }
+        return s;
     }
 
-    public String getLine1() {
-        return line1;
+    public Card(JSONObject post) throws JSONException {
+        title = nullable(post.getString("title"));
+        content = nullable(post.getString("content"));
+        url = nullable(post.getString("url"));
+        type = nullable(post.getString("type"));
     }
 
-    public String getLine2() {
-        return line2;
+    public String getTitle() {
+        return title;
     }
 
-    public String getThumbnail() {
-        return thumbnail;
+    public String getContent() {
+        return content;
     }
 
+    public String getUrl() {
+        return url;
+    }
 
+    public String getType() {
+        return type;
+    }
 }

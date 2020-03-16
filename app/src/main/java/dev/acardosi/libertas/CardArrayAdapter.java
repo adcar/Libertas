@@ -3,6 +3,7 @@ package dev.acardosi.libertas;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,18 +12,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.ponnamkarthik.richlinkpreview.MetaData;
+import io.github.ponnamkarthik.richlinkpreview.ResponseListener;
+import io.github.ponnamkarthik.richlinkpreview.RichPreview;
+
 public class CardArrayAdapter  extends ArrayAdapter<Card> {
+
     private static final String TAG = "CardArrayAdapter";
     private List<Card> cardList = new ArrayList<Card>();
 
     static class CardViewHolder {
-        TextView line1;
-        TextView line2;
+        TextView title;
+        TextView content;
         ImageView thumbnail;
     }
+
+
 
     public CardArrayAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
@@ -47,25 +56,58 @@ public class CardArrayAdapter  extends ArrayAdapter<Card> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
-        CardViewHolder viewHolder;
+        final CardViewHolder viewHolder;
         if (row == null) {
             LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.list_item_card, parent, false);
             viewHolder = new CardViewHolder();
-            viewHolder.line1 = row.findViewById(R.id.line1);
-            viewHolder.line2 = row.findViewById(R.id.line2);
+            viewHolder.title = row.findViewById(R.id.title);
+            viewHolder.content = row.findViewById(R.id.content);
             viewHolder.thumbnail = row.findViewById(R.id.thumbnail);
             row.setTag(viewHolder);
         } else {
             viewHolder = (CardViewHolder)row.getTag();
         }
         Card card = getItem(position);
-        viewHolder.line1.setText(card.getLine1());
-        viewHolder.line2.setText(card.getLine2());
-
+        assert card != null;
+        viewHolder.title.setText(card.getTitle());
+        viewHolder.content.setText(card.getContent());
         // TODO: Change placeholder to something like an exclamation mark warning thing
 
-        Picasso.get().load(card.getThumbnail()).placeholder(R.drawable.ic_launcher_background).into(viewHolder.thumbnail);
+
+
+        RichPreview richPreview = new RichPreview(new ResponseListener() {
+            @Override
+            public void onData(MetaData metaData) {
+                String imageUrl = metaData.getImageurl();
+                Log.i("meta",String.valueOf(metaData));
+
+                if (!imageUrl.equals(""))
+                    Picasso.get().load( metaData.getImageurl()).placeholder(R.drawable.ic_launcher_background).into(viewHolder.thumbnail);
+
+
+
+            }
+
+            @Override
+            public void onError(Exception e) {
+                //handle error
+            }
+        });
+
+        String url = card.getUrl();
+
+        if (url != null) {
+            if (url.endsWith(".gif") || url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg")) {
+                Picasso.get().load(url).placeholder(R.drawable.ic_launcher_background).into(viewHolder.thumbnail);
+            } else {
+
+//            if (!url.equals("null")) {
+//                richPreview.getPreview(url);
+//            }
+            }
+        }
+
 
         return row;
     }
