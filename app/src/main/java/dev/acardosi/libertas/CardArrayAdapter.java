@@ -11,12 +11,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardArrayAdapter  extends ArrayAdapter<Card> {
+public class CardArrayAdapter  extends ArrayAdapter<Card>  {
 
     private static final String TAG = "CardArrayAdapter";
     private List<Card> cardList = new ArrayList<Card>();
@@ -76,13 +76,18 @@ public class CardArrayAdapter  extends ArrayAdapter<Card> {
 
 
         if (card.getContent() != null) {
+
+            if (viewHolder.content.getParent() == null) {
+                viewHolder.card.addView(viewHolder.content);
+            }
+
+
             viewHolder.content.setText(card.getContent());
         } else if (card.getContent() == null) {
             viewHolder.card.removeView(viewHolder.content);
         }
 
         viewHolder.subverse.setText("v/" + card.getSubverse());
-        // TODO: Change placeholder to something like an exclamation mark warning thing
 
 
 
@@ -107,14 +112,26 @@ public class CardArrayAdapter  extends ArrayAdapter<Card> {
 
         String url = card.getUrl();
 
-        if (url != null) {
+
+
+        if (card.getType().equals("Link") && url != null) {
             // TODO: Do an okhttp request to figure out if the header is an image. Not all images will have the extension.
             if (url.endsWith(".gif") || url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg")) {
-//              Picasso.get().load(url).placeholder(R.drawable.ic_launcher_background).into(viewHolder.thumbnail);
-                Glide.with(getContext()).load(url).placeholder(R.drawable.placeholder).into(viewHolder.thumbnail);
+//                recyclerView.getRecycledViewPool().setMaxRecycledViews(0, 0);
+                Picasso.get().load(url).placeholder(R.drawable.placeholder).into(viewHolder.thumbnail);
+//                Glide.with(getContext()).load(url).placeholder(R.drawable.placeholder).apply(new RequestOptions()
+//                        .fitCenter()
+//                        .format(DecodeFormat.PREFER_ARGB_8888)
+//                        .override(Target.SIZE_ORIGINAL)).into(viewHolder.thumbnail);
             } else {
                 viewHolder.thumbnail.setImageResource(R.drawable.link);
             }
+        } else {
+            viewHolder.card.removeView(viewHolder.thumbnail);
+        }
+
+        if (viewHolder.thumbnail.getParent() == null) {
+            viewHolder.card.addView(viewHolder.thumbnail);
         }
 
 

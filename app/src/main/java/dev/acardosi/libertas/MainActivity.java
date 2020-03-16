@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.Menu;
@@ -121,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
 
                                 // Stuff that updates the UI
                                 list.setAdapter(cardArrayAdapter);
+                                //   recyclerView.getRecycledViewPool().setMaxRecycledViews(0, 0);
+
 
                             }
                         });
