@@ -10,6 +10,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 final String res = response.body().string();
                 final ListView list = findViewById(R.id.posts);
+
                 if (response.isSuccessful()) {
                     try {
                         final JSONObject jsonRes = new JSONObject(res);
@@ -122,6 +124,11 @@ public class MainActivity extends AppCompatActivity {
 
                                 // Stuff that updates the UI
                                 list.setAdapter(cardArrayAdapter);
+                                list.setDivider(null);
+
+                                // DP units are complicated... thanks Android...
+                                list.setDividerHeight((int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics()));
+
                                 //   recyclerView.getRecycledViewPool().setMaxRecycledViews(0, 0);
 
 
