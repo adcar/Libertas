@@ -3,6 +3,7 @@ package dev.acardosi.libertas;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,62 +74,26 @@ public class CardArrayAdapter  extends ArrayAdapter<Card>  {
         }
 
         viewHolder.title.setText(card.getTitle());
+        if (card.getContent() == null) {
+            viewHolder.content.setVisibility(View.GONE);
+        } else {
+            viewHolder.content.setVisibility(View.VISIBLE);
+        }
 
-
-//        if (card.getContent() != null) {
-//
-//            if (viewHolder.content.getParent() == null) {
-//                viewHolder.card.addView(viewHolder.content);
-//            }
-//
-//            viewHolder.content.setText(card.getContent());
-//        } else if (card.getContent() == null) {
-//            viewHolder.card.removeView(viewHolder.content);
-//        }
-
+        viewHolder.content.setText(card.getContent());
         viewHolder.subverse.setText("v/" + card.getSubverse());
 
-
-
-//        RichPreview richPreview = new RichPreview(new ResponseListener() {
-//            @Override
-//            public void onData(MetaData metaData) {
-//                String imageUrl = metaData.getImageurl();
-//                Log.i("meta",String.valueOf(metaData));
-//
-//                if (!imageUrl.equals(""))
-//                    Picasso.get().load( metaData.getImageurl()).placeholder(R.drawable.ic_launcher_background).into(viewHolder.thumbnail);
-//
-//
-//
-//            }
-//
-//            @Override
-//            public void onError(Exception e) {
-//                //handle error
-//            }
-//        });
-
         String url = card.getUrl();
-
-
 
         if (card.getType().equals("Link") && url != null) {
             // TODO: Do an okhttp request to figure out if the header is an image. Not all images will have the extension.
             if (url.endsWith(".gif") || url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg")) {
-//                recyclerView.getRecycledViewPool().setMaxRecycledViews(0, 0);
                 Picasso.get().load(url).placeholder(R.drawable.placeholder).into(viewHolder.thumbnail);
-//                Glide.with(getContext()).load(url).placeholder(R.drawable.placeholder).apply(new RequestOptions()
-//                        .fitCenter()
-//                        .format(DecodeFormat.PREFER_ARGB_8888)
-//                        .override(Target.SIZE_ORIGINAL)).into(viewHolder.thumbnail);
+
             } else {
                 viewHolder.thumbnail.setImageResource(R.drawable.link);
             }
         }
-
-
-
 
         return row;
     }

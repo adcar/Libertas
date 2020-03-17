@@ -122,15 +122,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
 
-                                // Stuff that updates the UI
                                 list.setAdapter(cardArrayAdapter);
-//                                list.setDivider(null);
-//                                list.setDividerHeight(0);
-                                // DP units are complicated... thanks Android...
-                                //list.setDividerHeight((int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics()));
-
-                                //   recyclerView.getRecycledViewPool().setMaxRecycledViews(0, 0);
-
 
                             }
                         });
