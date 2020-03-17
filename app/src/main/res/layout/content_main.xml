@@ -16,6 +16,9 @@
         <ListView
             android:id="@+id/posts"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="10.0sp"
+            />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

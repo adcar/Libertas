@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp"
-    android:descendantFocusability="beforeDescendants">
+
+    android:descendantFocusability="beforeDescendants"
+
+    android:clipToPadding="false">
 
     <LinearLayout
         android:id="@+id/cardLinear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/background_light"
+        android:background="@drawable/shadow"
+
         android:descendantFocusability="afterDescendants"
         android:orientation="vertical"
-        android:paddingLeft="15dp"
-        android:paddingTop="15dp"
-        android:paddingRight="15dp"
-        android:paddingBottom="15dp">
+        android:padding="20dp">
 
         <TextView
             android:id="@+id/subverse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
+            android:padding="15dp"
             tools:text="v/monero" />
 
         <ImageView
@@ -33,14 +32,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
+
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:padding="15dp"
             tools:text="Monero is pure digital cash" />
 
         <TextView
@@ -48,8 +47,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorGrey"
-            android:padding="10dp"
-            tools:text="I thought I woud pu tsome thoughts and information I had on Monero in a Voat post. I expect we will have quite a few people searching the net in the coming months / years as they study up on what this is all aout. With the rise of state surveilance of blockchain t..." />
+            android:padding="15dp"
+            tools:text="I thought I would put some thoughts and information I had on Monero in a Voat post. I expect we will have quite a few people searching the net in the coming months / years as they study up on what this is all aout. With the rise of state surveilance of blockchain t..." />
 
     </LinearLayout>
 </FrameLayout>
