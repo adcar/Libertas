@@ -106,30 +106,31 @@ public class CardArrayAdapter  extends ArrayAdapter<Card>  {
 
             } else {
                 viewHolder.thumbnail.setImageResource(R.drawable.link);
-                viewHolder.thumbnail.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.i("alex", v.toString());
-                        Uri uri = Uri.parse(url);
 
-                        // create an intent builder
-                        CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
-
-                        // Begin customizing
-                        // set toolbar colors
-                        intentBuilder.setToolbarColor(getContext().getColor(R.color.colorPrimary));
-                        intentBuilder.setSecondaryToolbarColor(getContext().getColor(R.color.colorPrimaryDark));
-
-                        // build custom tabs intent
-                        CustomTabsIntent customTabsIntent = intentBuilder.build();
-                        customTabsIntent.intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        // launch the url
-                        customTabsIntent.launchUrl(getContext(), uri);
-                    }
-                });
 
             }
         }
+        viewHolder.thumbnail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("alex", v.toString());
+                Uri uri = Uri.parse(url);
+
+                // create an intent builder
+                CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+
+                // Begin customizing
+                // set toolbar colors
+                intentBuilder.setToolbarColor(getContext().getColor(R.color.colorPrimary));
+                intentBuilder.setSecondaryToolbarColor(getContext().getColor(R.color.colorPrimaryDark));
+
+                // build custom tabs intent
+                CustomTabsIntent customTabsIntent = intentBuilder.build();
+                customTabsIntent.intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                // launch the url
+                customTabsIntent.launchUrl(getContext(), uri);
+            }
+        });
 
         return row;
     }
