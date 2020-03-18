@@ -78,7 +78,7 @@ public class CardArrayAdapter  extends ArrayAdapter<Card>  {
         }
 
         viewHolder.title.setText(card.getTitle());
-        if (card.getContent() == null) {
+        if (card.getContent() == null || card.getContent().length() < 1) {
             viewHolder.content.setVisibility(View.GONE);
         } else {
             viewHolder.content.setVisibility(View.VISIBLE);
