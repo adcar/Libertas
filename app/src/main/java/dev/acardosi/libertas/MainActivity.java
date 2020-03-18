@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -26,6 +28,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -39,7 +43,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
     private String token;
-    private CardArrayAdapter cardArrayAdapter;
+    private CardRecyclerViewAdapter cardAdapter;
 
 
 
@@ -76,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getPosts() {
-        //
         final OkHttpClient client = new OkHttpClient();
         final String url = "https://api.voat.co/api/v1/v/_front";
         final Request request = new Request.Builder()
@@ -94,15 +97,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 final String res = response.body().string();
-                final ListView list = findViewById(R.id.posts);
+                final RecyclerView rv = findViewById(R.id.posts);
 
                 if (response.isSuccessful()) {
+                    List cards = new ArrayList<>();
                     try {
                         final JSONObject jsonRes = new JSONObject(res);
                         final JSONArray data = jsonRes.getJSONArray("data");
 
 
-                        cardArrayAdapter = new CardArrayAdapter(getApplicationContext(), R.layout.list_item_card);
 
 
                         for (int i = 0; i < data.length(); i++) {
@@ -110,19 +113,23 @@ public class MainActivity extends AppCompatActivity {
                             Log.i("res", post.toString());
 
                             try {
-                                cardArrayAdapter.add(new Card(post));
+                                cards.add(new Card(post));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
                         }
+                        final ProgressBar progressBar = findViewById(R.id.progress_bar);
+
+                        cardAdapter = new CardRecyclerViewAdapter(getApplicationContext(), cards);
 
                         runOnUiThread(new Runnable() {
 
                             @Override
                             public void run() {
-
-                                list.setAdapter(cardArrayAdapter);
+                                rv.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                                progressBar.setVisibility(View.GONE);
+                                rv.setAdapter(cardAdapter);
 
                             }
                         });
