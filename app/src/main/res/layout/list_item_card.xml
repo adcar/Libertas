@@ -24,8 +24,22 @@
             android:id="@+id/subverse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="7.5dp"
+            android:textColor="@color/colorAccent"
             tools:text="v/monero" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="7.5dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="15dp"
+            tools:text="Monero is pure digital cash" />
 
         <ImageView
             android:id="@+id/thumbnail"
@@ -35,12 +49,7 @@
 
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            tools:text="Monero is pure digital cash" />
+
 
         <TextView
             android:id="@+id/content"
