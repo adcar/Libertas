@@ -164,6 +164,10 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void onCardClick(View v) {
+        Log.i("alex", "clicked");
+    }
+
 
 
 }

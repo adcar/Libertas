@@ -1,5 +1,8 @@
 package dev.acardosi.libertas;
 
+import android.util.Log;
+import android.view.View;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,4 +48,6 @@ public class Card {
     public String getSubverse() {
         return subverse;
     }
+
+
 }

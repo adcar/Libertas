@@ -1,8 +1,10 @@
 package dev.acardosi.libertas;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.browser.customtabs.CustomTabsIntent;
 
 import com.squareup.picasso.Picasso;
 
@@ -92,6 +96,21 @@ public class CardArrayAdapter  extends ArrayAdapter<Card>  {
 
             } else {
                 viewHolder.thumbnail.setImageResource(R.drawable.link);
+                Uri uri = Uri.parse(url);
+
+                // create an intent builder
+                CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+
+                // Begin customizing
+                // set toolbar colors
+                    intentBuilder.setToolbarColor(getContext().getColor(R.color.colorPrimary));
+                    intentBuilder.setSecondaryToolbarColor(getContext().getColor(R.color.colorPrimaryDark));
+
+                // build custom tabs intent
+                CustomTabsIntent customTabsIntent = intentBuilder.build();
+                customTabsIntent.intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                // launch the url
+                customTabsIntent.launchUrl(getContext(), uri);
             }
         }
 
