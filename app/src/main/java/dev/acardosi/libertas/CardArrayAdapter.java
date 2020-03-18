@@ -87,7 +87,7 @@ public class CardArrayAdapter  extends ArrayAdapter<Card>  {
         viewHolder.content.setText(card.getContent());
         viewHolder.subverse.setText("v/" + card.getSubverse());
 
-        String url = card.getUrl();
+        final String url = card.getUrl();
 
         if (card.getType().equals("Link") && url != null) {
             // TODO: Do an okhttp request to figure out if the header is an image. Not all images will have the extension.
@@ -96,21 +96,27 @@ public class CardArrayAdapter  extends ArrayAdapter<Card>  {
 
             } else {
                 viewHolder.thumbnail.setImageResource(R.drawable.link);
-                Uri uri = Uri.parse(url);
+                viewHolder.thumbnail.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Uri uri = Uri.parse(url);
 
-                // create an intent builder
-                CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+                        // create an intent builder
+                        CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
 
-                // Begin customizing
-                // set toolbar colors
-                    intentBuilder.setToolbarColor(getContext().getColor(R.color.colorPrimary));
-                    intentBuilder.setSecondaryToolbarColor(getContext().getColor(R.color.colorPrimaryDark));
+                        // Begin customizing
+                        // set toolbar colors
+                        intentBuilder.setToolbarColor(getContext().getColor(R.color.colorPrimary));
+                        intentBuilder.setSecondaryToolbarColor(getContext().getColor(R.color.colorPrimaryDark));
 
-                // build custom tabs intent
-                CustomTabsIntent customTabsIntent = intentBuilder.build();
-                customTabsIntent.intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                // launch the url
-                customTabsIntent.launchUrl(getContext(), uri);
+                        // build custom tabs intent
+                        CustomTabsIntent customTabsIntent = intentBuilder.build();
+                        customTabsIntent.intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        // launch the url
+                        customTabsIntent.launchUrl(getContext(), uri);
+                    }
+                });
+
             }
         }
 
