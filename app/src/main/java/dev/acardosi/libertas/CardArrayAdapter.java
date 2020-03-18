@@ -25,6 +25,8 @@ public class CardArrayAdapter  extends ArrayAdapter<Card>  {
 
     private static final String TAG = "CardArrayAdapter";
     private List<Card> cardList = new ArrayList<Card>();
+    private
+    PhotoView photoView;
 
     static class CardViewHolder {
         TextView subverse;
@@ -58,6 +60,8 @@ public class CardArrayAdapter  extends ArrayAdapter<Card>  {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+
         View row = convertView;
         final CardViewHolder viewHolder;
         Card card = getItem(position);
@@ -93,6 +97,12 @@ public class CardArrayAdapter  extends ArrayAdapter<Card>  {
             // TODO: Do an okhttp request to figure out if the header is an image. Not all images will have the extension.
             if (url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg")) {
                 Picasso.get().load(url).placeholder(R.drawable.placeholder).into(viewHolder.thumbnail);
+                viewHolder.thumbnail.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
 
             } else {
                 viewHolder.thumbnail.setImageResource(R.drawable.link);
