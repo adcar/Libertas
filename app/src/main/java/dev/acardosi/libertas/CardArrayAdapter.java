@@ -91,7 +91,7 @@ public class CardArrayAdapter  extends ArrayAdapter<Card>  {
 
         if (card.getType().equals("Link") && url != null) {
             // TODO: Do an okhttp request to figure out if the header is an image. Not all images will have the extension.
-            if (url.endsWith(".gif") || url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg")) {
+            if (url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg")) {
                 Picasso.get().load(url).placeholder(R.drawable.placeholder).into(viewHolder.thumbnail);
 
             } else {
@@ -99,6 +99,7 @@ public class CardArrayAdapter  extends ArrayAdapter<Card>  {
                 viewHolder.thumbnail.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Log.i("alex", v.toString());
                         Uri uri = Uri.parse(url);
 
                         // create an intent builder
