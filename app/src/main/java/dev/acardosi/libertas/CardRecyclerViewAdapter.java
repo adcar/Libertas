@@ -1,8 +1,11 @@
 package dev.acardosi.libertas;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -21,8 +25,8 @@ public class CardRecyclerViewAdapter extends RecyclerView.Adapter<CardRecyclerVi
     private Context mContext;
 
     public CardRecyclerViewAdapter(Context context, List<Card> feedItemList) {
-        this.cardList = feedItemList;
-        this.mContext = context;
+        cardList = feedItemList;
+        mContext = context;
     }
 
     @Override
@@ -36,18 +40,17 @@ public class CardRecyclerViewAdapter extends RecyclerView.Adapter<CardRecyclerVi
     public void onBindViewHolder(CustomViewHolder customViewHolder, int i) {
         Card card = cardList.get(i);
 
-//        //Render image using Picasso library
-//        if (!TextUtils.isEmpty(feedItem.getThumbnail())) {
-//            Picasso.get().load(feedItem.getThumbnail())
-//                    .error(R.drawable.placeholder)
-//                    .placeholder(R.drawable.placeholder)
-//                    .into(customViewHolder.imageView);
-//        }
 
-        //Setting text view title
         customViewHolder.subverse.setText(card.getSubverse());
         customViewHolder.title.setText(card.getTitle());
         customViewHolder.content.setText(card.getContent());
+        if (card.getContent() == null || card.getContent().length() < 1) {
+            customViewHolder.content.setVisibility(View.GONE);
+        } else {
+            customViewHolder.content.setVisibility(View.VISIBLE);
+        }
+
+
         final String url = card.getUrl();
 
         if (card.getType().equals("Link") && url != null) {
@@ -65,7 +68,30 @@ public class CardRecyclerViewAdapter extends RecyclerView.Adapter<CardRecyclerVi
                 customViewHolder.thumbnail.setImageResource(R.drawable.link);
             }
         }
+        customViewHolder.thumbnail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("alex", v.toString());
+                Uri uri = Uri.parse(url);
+
+                // create an intent builder
+                CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+
+                // Begin customizing
+                // set toolbar colors
+                intentBuilder.setToolbarColor(mContext.getColor(R.color.colorPrimary));
+                intentBuilder.setSecondaryToolbarColor(mContext.getColor(R.color.colorPrimaryDark));
+
+                // build custom tabs intent
+                CustomTabsIntent customTabsIntent = intentBuilder.build();
+                customTabsIntent.intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                // launch the url
+                customTabsIntent.launchUrl(mContext, uri);
+            }
+        });
     }
+
+
 
     @Override
     public int getItemCount() {
