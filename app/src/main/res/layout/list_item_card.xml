@@ -8,17 +8,19 @@
 
     android:descendantFocusability="beforeDescendants"
 
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    >
 
     <LinearLayout
         android:id="@+id/cardLinear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shadow"
-
+        android:background="@drawable/layout_bg"
         android:descendantFocusability="afterDescendants"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/subverse"

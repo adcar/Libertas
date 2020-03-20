@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +40,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static java.security.AccessController.getContext;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -127,6 +130,12 @@ public class MainActivity extends AppCompatActivity {
 
                             @Override
                             public void run() {
+
+//                                DividerItemDecoration itemDecorator = new DividerItemDecoration(rv.getContext(), DividerItemDecoration.VERTICAL);
+//                                itemDecorator.setDrawable(ContextCompat.getDrawable(rv.getContext(), R.drawable.divider));
+//
+//                                rv.addItemDecoration(new DividerItemDecoration(rv.getContext(),
+//                                        DividerItemDecoration.VERTICAL));
                                 rv.setLayoutManager(new LinearLayoutManager(MainActivity.this));
                                 progressBar.setVisibility(View.GONE);
                                 rv.setAdapter(cardAdapter);
