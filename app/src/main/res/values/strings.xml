@@ -4,4 +4,5 @@
     <string name="voat_login">Sign in with Voat</string>
     <string name="welcome_to_libertas">Welcome to Libertas</string>
     <string name="sign_in_with_your_voat_account_below">Sign in with your Voat account below.</string>
+    <string name="comments">Comments</string>
 </resources>
