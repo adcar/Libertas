@@ -65,6 +65,15 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
+            <Button
+                android:id="@+id/comments"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_weight="2"
+                android:text="@string/comments"
+                android:textAlignment="viewStart" />
+
             <ImageButton
                 android:id="@+id/imageButton"
                 android:layout_width="wrap_content"
@@ -80,16 +89,6 @@
                 android:layout_weight="0.3"
                 android:background="#00000000"
                 app:srcCompat="@drawable/ic_arrow_upward_grey_24dp" />
-
-            <Button
-                android:id="@+id/comments"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:paddingRight="20dp"
-                android:text="@string/comments"
-                android:textAlignment="textEnd" />
         </LinearLayout>
 
     </LinearLayout>
