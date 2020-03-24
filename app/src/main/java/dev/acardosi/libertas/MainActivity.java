@@ -108,9 +108,6 @@ public class MainActivity extends AppCompatActivity {
                         final JSONObject jsonRes = new JSONObject(res);
                         final JSONArray data = jsonRes.getJSONArray("data");
 
-
-
-
                         for (int i = 0; i < data.length(); i++) {
                             JSONObject post = data.getJSONObject(i);
                             Log.i("res", post.toString());
@@ -130,12 +127,6 @@ public class MainActivity extends AppCompatActivity {
 
                             @Override
                             public void run() {
-
-//                                DividerItemDecoration itemDecorator = new DividerItemDecoration(rv.getContext(), DividerItemDecoration.VERTICAL);
-//                                itemDecorator.setDrawable(ContextCompat.getDrawable(rv.getContext(), R.drawable.divider));
-//
-//                                rv.addItemDecoration(new DividerItemDecoration(rv.getContext(),
-//                                        DividerItemDecoration.VERTICAL));
                                 rv.setLayoutManager(new LinearLayoutManager(MainActivity.this));
                                 progressBar.setVisibility(View.GONE);
                                 rv.setAdapter(cardAdapter);

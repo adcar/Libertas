@@ -47,6 +47,7 @@ public class CardRecyclerViewAdapter extends RecyclerView.Adapter<CardRecyclerVi
         customViewHolder.subverse.setText("v/" + card.getSubverse());
         customViewHolder.title.setText(card.getTitle());
         customViewHolder.content.setText(card.getContent());
+        customViewHolder.score.setText(card.getScore());
         if (card.getContent() == null || card.getContent().length() < 1) {
             customViewHolder.content.setVisibility(View.GONE);
         } else {
@@ -105,6 +106,7 @@ public class CardRecyclerViewAdapter extends RecyclerView.Adapter<CardRecyclerVi
         TextView subverse;
         TextView title;
         TextView content;
+        TextView score;
         ImageView thumbnail;
         LinearLayout card;
 
@@ -115,6 +117,7 @@ public class CardRecyclerViewAdapter extends RecyclerView.Adapter<CardRecyclerVi
             content = view.findViewById(R.id.content);
             thumbnail = view.findViewById(R.id.thumbnail);
             card = view.findViewById(R.id.cardLinear);
+            score = view.findViewById(R.id.score);
         }
     }
 }
