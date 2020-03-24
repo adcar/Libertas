@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         final ProgressBar progressBar = findViewById(R.id.progress_bar);
 
-                        cardAdapter = new CardRecyclerViewAdapter(getApplicationContext(), cards);
+                        cardAdapter = new CardRecyclerViewAdapter(getApplicationContext(), cards, MainActivity.this);
 
                         runOnUiThread(new Runnable() {
 
