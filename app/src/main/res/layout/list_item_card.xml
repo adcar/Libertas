@@ -68,19 +68,23 @@
             <Button
                 android:id="@+id/comments"
                 style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="70dp"
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:text="@string/comments"
                 android:textAlignment="viewStart" />
 
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+            <Space android:layout_height="match_parent"
+                android:layout_width="wrap_content" android:layout_weight="1.5" />
+
+            <Button
+                android:id="@+id/downvote"
+                style="@style/IconOnlyButton"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.3"
                 android:background="#00000000"
-                app:srcCompat="@drawable/ic_arrow_downward_grey_24dp" />
+                app:icon="@drawable/ic_arrow_downward_grey_24dp" />
 
             <TextView
                 android:id="@+id/score"
@@ -90,13 +94,15 @@
                 android:text="2000"
                 android:textAlignment="center" />
 
-            <ImageButton
-                android:id="@+id/imageButton2"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+
+            <Button
+                android:id="@+id/upvote"
+                style="@style/IconOnlyButton"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.3"
                 android:background="#00000000"
-                app:srcCompat="@drawable/ic_arrow_upward_grey_24dp" />
+                app:icon="@drawable/ic_arrow_upward_grey_24dp" />
 
         </LinearLayout>
 
