@@ -99,6 +99,7 @@
             <Button
                 android:id="@+id/upvote"
                 style="@style/IconOnlyButton"
+                app:iconTint="@color/colorAccent"
                 android:layout_width="25dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.3"
