@@ -29,6 +29,9 @@ public class Card {
         type = nullable(post.getString("type"));
         subverse = post.getString("subverse");
         score = post.getString("sum");
+
+        // Vote is always null. Is the API broken?
+        Log.i("alex", post.getString("vote"));
     }
 
     public String getTitle() {

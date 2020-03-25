@@ -80,6 +80,7 @@
 
             <Button
                 style="@style/IconOnlyButton"
+                android:onClick="onDownvote"
                 android:id="@+id/downvote"
                 android:layout_width="25dp"
                 android:layout_height="wrap_content"
@@ -89,6 +90,7 @@
                 app:icon="@drawable/ic_arrow_downward_grey_24dp" />
 
             <TextView
+
                 android:id="@+id/score"
                 android:layout_width="6dp"
                 android:layout_height="wrap_content"
@@ -99,6 +101,7 @@
 
             <Button
                 style="@style/IconOnlyButton"
+                android:onClick="onUpvote"
                 android:id="@+id/upvote"
                 android:layout_width="25dp"
                 android:layout_height="wrap_content"

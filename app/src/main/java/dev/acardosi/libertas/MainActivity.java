@@ -175,6 +175,13 @@ public class MainActivity extends AppCompatActivity {
         Log.i("alex", "clicked");
     }
 
+    public void onUpvote(View v) {
+        Log.i("alex", "upvote");
+    }
+    public void onDownvote(View v) {
+        Log.i("alex", "downvote");
+    }
+
 
 
 }
