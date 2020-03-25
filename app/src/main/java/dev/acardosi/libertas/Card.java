@@ -13,6 +13,7 @@ public class Card {
     private String type;
     private String subverse;
     private String score; // Yes this is odd, but we need to set the textView to this so we might as well keep it a string
+    private String id;
 
     // API returns `"null"` (A string, not the null primitive), but here I fix it to `null` (the primitive)
     private String nullable(String s) {
@@ -29,6 +30,7 @@ public class Card {
         type = nullable(post.getString("type"));
         subverse = post.getString("subverse");
         score = post.getString("sum");
+        id = post.getString("id");
 
         // Vote is always null. Is the API broken?
         Log.i("alex", post.getString("vote"));
@@ -57,6 +59,8 @@ public class Card {
     public String getScore() {
         return score;
     }
+
+    public String getId() {return id; }
 
 
 }

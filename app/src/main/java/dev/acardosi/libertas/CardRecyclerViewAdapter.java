@@ -13,6 +13,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -67,16 +68,15 @@ public class CardRecyclerViewAdapter extends RecyclerView.Adapter<CardRecyclerVi
         customViewHolder.title.setText(card.getTitle());
         customViewHolder.content.setText(card.getContent());
         customViewHolder.score.setText(card.getScore());
+        customViewHolder.upvote.setTag(card.getId());
+        customViewHolder.downvote.setTag(card.getId());
         if (card.getContent() == null || card.getContent().length() < 1) {
             customViewHolder.content.setVisibility(View.GONE);
         } else {
             customViewHolder.content.setVisibility(View.VISIBLE);
         }
 
-
         final String url = card.getUrl();
-
-
 
         if (card.getType().equals("Link") && url != null) {
             // TODO: Do an okhttp request to figure out if the header is an image. Not all images will have the extension.
@@ -85,7 +85,6 @@ public class CardRecyclerViewAdapter extends RecyclerView.Adapter<CardRecyclerVi
             final Request request = new Request.Builder()
                     .url(url)
                     .build();
-
 
             client.newCall(request).enqueue(new Callback() {
 
@@ -117,13 +116,7 @@ public class CardRecyclerViewAdapter extends RecyclerView.Adapter<CardRecyclerVi
                             }
                         }
                     });
-
-
-
                 }
-
-
-
             });
 
         }
@@ -166,6 +159,8 @@ public class CardRecyclerViewAdapter extends RecyclerView.Adapter<CardRecyclerVi
         TextView score;
         ImageView thumbnail;
         LinearLayout card;
+        Button upvote;
+        Button downvote;
 
         public CustomViewHolder(View view) {
             super(view);
@@ -175,6 +170,8 @@ public class CardRecyclerViewAdapter extends RecyclerView.Adapter<CardRecyclerVi
             thumbnail = view.findViewById(R.id.thumbnail);
             card = view.findViewById(R.id.cardLinear);
             score = view.findViewById(R.id.score);
+            upvote = view.findViewById(R.id.upvote);
+            downvote = view.findViewById(R.id.downvote);
         }
     }
 }

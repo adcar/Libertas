@@ -177,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onUpvote(View v) {
         Log.i("alex", "upvote");
+        Log.i("alex", String.valueOf(v.getTag()));
     }
     public void onDownvote(View v) {
         Log.i("alex", "downvote");
