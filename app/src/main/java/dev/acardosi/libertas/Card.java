@@ -33,7 +33,7 @@ public class Card {
         id = post.getString("id");
 
         // Vote is always null. Is the API broken?
-        Log.i("alex", post.getString("vote"));
+//        Log.i("alex", post.getString("vote"));
     }
 
     public String getTitle() {

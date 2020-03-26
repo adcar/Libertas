@@ -3,6 +3,10 @@ package dev.acardosi.libertas;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -17,10 +21,9 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -37,19 +40,14 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static java.security.AccessController.getContext;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private String token;
     private CardRecyclerViewAdapter cardAdapter;
-
-
-
 
 
     @Override
@@ -176,11 +174,93 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onUpvote(View v) {
-        Log.i("alex", "upvote");
-        Log.i("alex", String.valueOf(v.getTag()));
+
+        vote(v, true);
     }
     public void onDownvote(View v) {
-        Log.i("alex", "downvote");
+
+        vote(v, false);
+    }
+
+    private void vote(View v, boolean upvoting) {
+        Log.i("alex", "voting");
+
+        MaterialButton btn = (MaterialButton) v;
+
+        LinearLayout parent = (LinearLayout) v.getParent();
+        Vote vote = (Vote)parent.getTag();
+
+        String id = vote.getId();
+
+
+        if (upvoting) {
+            Log.i("alex", "upvote");
+
+            if (vote.isUpvoted()) {
+                Log.i("alex", "this ran");
+                // # Undo upvote if they already upvoted
+                vote.setUpvoted(false);
+                vote.setDownvoted(false);
+
+                // Make the button grey
+                makeGrey(btn);
+
+            } else {
+                // # Upvote normally
+                vote.setUpvoted(true);
+                vote.setDownvoted(false);
+
+                // Make the downvote button grey
+                makeGrey((MaterialButton)parent.findViewById(R.id.downvote));
+
+                // Set the color of the icon to the primary color
+                btn.setIconTint(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary, MainActivity.this.getTheme())));
+
+            }
+        } else {
+            Log.i("alex", "downvote");
+            if (vote.isDownvoted()) {
+                // # Undo downvote if they already upvoted
+                vote.setDownvoted(false);
+                vote.setUpvoted(false);
+
+                // Make the button grey
+                makeGrey(btn);
+
+            } else {
+                // # Downvote normally
+                vote.setDownvoted(true);
+                vote.setUpvoted(false);
+
+                // Make the upvote button grey
+                makeGrey((MaterialButton)parent.findViewById(R.id.upvote));
+
+                // Set the color of the icon to the accent color
+                btn.setIconTint(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent, MainActivity.this.getTheme())));
+
+            }
+        }
+
+        parent.setTag(vote);
+
+    }
+
+    private void makeGrey(MaterialButton btn) {
+        btn.setIconTint(ColorStateList.valueOf(getResources().getColor(R.color.colorDarkGrey, MainActivity.this.getTheme())));
+    }
+
+
+    // https://stackoverflow.com/a/28777489/6501208 (modified slightly)
+    public static int getThemeAccentColor(final Context context, boolean primaryColor) {
+        final TypedValue value = new TypedValue();
+
+        if (primaryColor) {
+            context.getTheme().resolveAttribute(R.attr.colorPrimary, value, true);
+        } else {
+            context.getTheme().resolveAttribute(R.attr.colorAccent, value, true);
+        }
+
+        return value.data;
     }
 
 

@@ -78,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="2" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 style="@style/IconOnlyButton"
                 android:onClick="onDownvote"
                 android:id="@+id/downvote"
@@ -99,7 +99,7 @@
                 android:textAlignment="center" />
 
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 style="@style/IconOnlyButton"
                 android:onClick="onUpvote"
                 android:id="@+id/upvote"

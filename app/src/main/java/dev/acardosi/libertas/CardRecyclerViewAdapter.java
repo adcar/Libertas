@@ -68,8 +68,12 @@ public class CardRecyclerViewAdapter extends RecyclerView.Adapter<CardRecyclerVi
         customViewHolder.title.setText(card.getTitle());
         customViewHolder.content.setText(card.getContent());
         customViewHolder.score.setText(card.getScore());
-        customViewHolder.upvote.setTag(card.getId());
-        customViewHolder.downvote.setTag(card.getId());
+
+        View parent = (View)customViewHolder.upvote.getParent();
+
+        parent.setTag(new Vote(card.getId()));
+
+
         if (card.getContent() == null || card.getContent().length() < 1) {
             customViewHolder.content.setVisibility(View.GONE);
         } else {
