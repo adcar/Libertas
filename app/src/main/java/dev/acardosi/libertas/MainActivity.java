@@ -4,15 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,6 +28,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -73,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         final SharedPreferences mPrefs = getSharedPreferences("voat", 0);
         final SharedPreferences.Editor editor = mPrefs.edit();
         editor.putString("token", token);
-        editor.commit();
+        editor.apply();
 
 
         getPosts();
@@ -97,11 +91,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                final String res = response.body().string();
+                final String res = Objects.requireNonNull(response.body()).string();
                 final RecyclerView rv = findViewById(R.id.posts);
 
                 if (response.isSuccessful()) {
-                    List cards = new ArrayList<>();
+                    List<Card> cards = new ArrayList<>();
                     try {
                         final JSONObject jsonRes = new JSONObject(res);
                         final JSONArray data = jsonRes.getJSONArray("data");
@@ -140,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 // We need to re get a new token and re do the request
-                Log.e("alex", "error: " + response.body().string());
+                Log.e("alex", "error: " + Objects.requireNonNull(response.body()).string());
 
 
             }
@@ -240,7 +234,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         parent.setTag(vote);
-
     }
 
     private void makeGrey(MaterialButton btn) {
