@@ -195,9 +195,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (upvoting) {
             Log.i("alex", "upvote");
-
             if (vote.isUpvoted()) {
-                Log.i("alex", "this ran");
                 // # Undo upvote if they already upvoted
                 vote.setUpvoted(false);
                 vote.setDownvoted(false);
