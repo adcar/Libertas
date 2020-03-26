@@ -16,11 +16,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,10 +36,12 @@ import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
-
+import okio.BufferedSink;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -187,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
         String id = vote.getId();
 
 
+
         if (upvoting) {
             Log.i("alex", "upvote");
             if (vote.isUpvoted()) {
@@ -196,6 +203,9 @@ public class MainActivity extends AppCompatActivity {
 
                 // Make the button grey
                 makeGrey(btn);
+
+                // Run the API request
+                voteRequest("https://api.voat.co/api/v1/vote/submission/" + vote.getId() + "/0", parent, btn);
 
             } else {
                 // # Upvote normally
@@ -208,6 +218,9 @@ public class MainActivity extends AppCompatActivity {
                 // Set the color of the icon to the primary color
                 btn.setIconTint(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary, MainActivity.this.getTheme())));
 
+                // Run the API request
+                voteRequest("https://api.voat.co/api/v1/vote/submission/" + vote.getId() + "/1", parent, btn);
+
             }
         } else {
             Log.i("alex", "downvote");
@@ -218,6 +231,9 @@ public class MainActivity extends AppCompatActivity {
 
                 // Make the button grey
                 makeGrey(btn);
+
+                // Run the API request
+                voteRequest("https://api.voat.co/api/v1/vote/submission/" + vote.getId() + "/0", parent, btn);
 
             } else {
                 // # Downvote normally
@@ -230,14 +246,80 @@ public class MainActivity extends AppCompatActivity {
                 // Set the color of the icon to the accent color
                 btn.setIconTint(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent, MainActivity.this.getTheme())));
 
+                // Run the API request
+                voteRequest("https://api.voat.co/api/v1/vote/submission/" + vote.getId() + "/-1", parent, btn);
+
+
             }
         }
 
         parent.setTag(vote);
     }
 
-    private void makeGrey(MaterialButton btn) {
+    private void makeGrey(final MaterialButton btn) {
         btn.setIconTint(ColorStateList.valueOf(getResources().getColor(R.color.colorDarkGrey, MainActivity.this.getTheme())));
+    }
+
+    private void voteRequest(final String url, final View parent, final MaterialButton btn) {
+        Log.i("alex", "Running API Request with URL: " + url);
+        final OkHttpClient client = new OkHttpClient();
+        final TextView score = (TextView) parent.findViewById(R.id.score);
+        final Request request = new Request.Builder()
+                .url(url)
+                .header("Content-Type", "application/json")
+                .addHeader("Api-Key", Client.CLIENT_ID)
+                .addHeader("Authorization:", "Bearer " + token)
+                .method("POST", new RequestBody() {
+                    @Nullable
+                    @Override
+                    public MediaType contentType() {
+                        return null;
+                    }
+
+                    @Override
+                    public void writeTo(@NotNull BufferedSink bufferedSink) throws IOException {
+
+                    }
+                })
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+                Toast.makeText(MainActivity.this, "Unable to vote. Internet Connection error.", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull final Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    score.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
+                    Log.i("alex", String.valueOf(response.body()));
+                } else {
+                    try {
+                        final String urlResponse = Objects.requireNonNull(response.body()).string();
+                        final JSONObject res = new JSONObject(urlResponse);
+                        final JSONObject err = new JSONObject(res.getString("error"));
+
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Toast.makeText(MainActivity.this, "Unable to vote: " + err.getString("message"), Toast.LENGTH_LONG).show();
+                                    makeGrey(btn);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
 
