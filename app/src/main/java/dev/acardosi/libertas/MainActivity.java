@@ -43,11 +43,16 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okio.BufferedSink;
 
+import static dev.acardosi.libertas.LoginActivity.FORM;
+
 
 public class MainActivity extends AppCompatActivity {
 
     private String token;
+    private String refreshToken;
     private CardRecyclerViewAdapter cardAdapter;
+    public static final MediaType JSON
+            = MediaType.get("application/json; charset=utf-8");
 
 
     @Override
@@ -67,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         });
         final Intent intent = getIntent();
         token = intent.getStringExtra(LoginActivity.API_TOKEN);
-
+        refreshToken = intent.getStringExtra(LoginActivity.REFRESH_TOKEN);
 
         // Save the token to SharedPrefs
         final SharedPreferences mPrefs = getSharedPreferences("voat", 0);
@@ -75,14 +80,16 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("token", token);
         editor.apply();
 
-
         getPosts();
 
     }
 
     private void getPosts() {
         final OkHttpClient client = new OkHttpClient();
-        final String url = "https://api.voat.co/api/v1/v/_front";
+        // I only have one subvoat hardcoded. Potentially this could be anything as an argument from `getPosts()`
+        // can be v/_front for the front page... (Mix of subreddits)
+        final String url = "https://api.voat.co/api/v1//v/TelevisionQuotes";
+
         final Request request = new Request.Builder()
                 .url(url)
                 .header("Content-Type", "application/json")
@@ -115,8 +122,8 @@ public class MainActivity extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-
                         }
+
                         final ProgressBar progressBar = findViewById(R.id.progress_bar);
 
                         cardAdapter = new CardRecyclerViewAdapter(getApplicationContext(), cards, MainActivity.this);
@@ -138,6 +145,8 @@ public class MainActivity extends AppCompatActivity {
 
                     return;
                 }
+
+
 
                 // We need to re get a new token and re do the request
                 Log.e("alex", "error: " + Objects.requireNonNull(response.body()).string());
@@ -261,6 +270,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void voteRequest(final String url, final View parent, final MaterialButton btn) {
+
         Log.i("alex", "Running API Request with URL: " + url);
         final OkHttpClient client = new OkHttpClient();
         final TextView score = (TextView) parent.findViewById(R.id.score);
@@ -269,18 +279,8 @@ public class MainActivity extends AppCompatActivity {
                 .header("Content-Type", "application/json")
                 .addHeader("Api-Key", Client.CLIENT_ID)
                 .addHeader("Authorization:", "Bearer " + token)
-                .method("POST", new RequestBody() {
-                    @Nullable
-                    @Override
-                    public MediaType contentType() {
-                        return null;
-                    }
-
-                    @Override
-                    public void writeTo(@NotNull BufferedSink bufferedSink) throws IOException {
-
-                    }
-                })
+                .addHeader("Content-Length", "0")
+                .method("POST", RequestBody.create("{\"revokeOnRevote\": \"false\"}", JSON))
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -293,7 +293,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NotNull Call call, @NotNull final Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    score.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
+
+                    // TODO: Get the recorded value and set the text color based on that.
+                    // TODO: Set the new value of text view to whatever the sum is.
+
+                    score.setTextColor(getResources().getColor(R.color.colorPrimary, getTheme()));
                     Log.i("alex", String.valueOf(response.body()));
                 } else {
                     try {
@@ -301,6 +305,32 @@ public class MainActivity extends AppCompatActivity {
                         final JSONObject res = new JSONObject(urlResponse);
                         final JSONObject err = new JSONObject(res.getString("error"));
 
+
+                        if (err.getString("message").contains("Auth")) {
+                            Log.i("alex", "Contains Auth");
+                            // Get a new token from refresh_token
+                            final String url = "https://api.voat.co/oauth/token";
+                            final String bodyString = "grant_type=refresh_token&refresh_token=" + refreshToken + "&client_id=" + Client.CLIENT_ID + "&client_secret=" + Client.CLIENT_SECRET + "&redirect_uri=" + Client.REDIRECT_URI;
+                            Log.i("alex", "bodyString: " + bodyString);
+                            final RequestBody body = RequestBody.create(bodyString, FORM);
+                            final Request request = new Request.Builder()
+                                    .url(url)
+                                    .post(body)
+                                    .header("Content-Type", "application/x-www-form-urlencoded")
+                                    .addHeader("Api-Key", Client.CLIENT_ID)
+                                    .build();
+                            client.newCall(request).enqueue(new Callback() {
+                                @Override
+                                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                @Override
+                                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                    Log.i("alex", response.body().string());
+                                }
+                            });
+                        }
 
                         runOnUiThread(new Runnable() {
                             @Override
